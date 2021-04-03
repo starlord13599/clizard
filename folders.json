@@ -4,6 +4,10 @@
 		"hasChild": true
 	},
 	{
+		"folderName": "test1",
+		"hasChild": true
+	},
+	{
 		"folderName": "api",
 		"isFolder": true
 	},
