@@ -8,14 +8,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/starlord13599/cli-nt.git"
+		"url": "git+https://github.com/starlord13599/clizard.git"
 	},
 	"author": "Deep Patel",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/starlord13599/cli-nt/issues"
+		"url": "https://github.com/starlord13599/clizard/issues"
 	},
-	"homepage": "https://github.com/starlord13599/cli-nt#readme",
+	"homepage": "https://github.com/starlord13599/clizard#readme",
 	"bin": {
 		"cli-nt-init": "index.js"
 	},
