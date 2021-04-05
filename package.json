@@ -17,11 +17,13 @@
 	},
 	"homepage": "https://github.com/starlord13599/clizard#readme",
 	"bin": {
-		"cli-nt-init": "index.js"
+		"clizard-init": "index.js"
 	},
 	"dependencies": {
 		"atocha": "^1.2.2",
 		"chalk": "^4.1.0",
+		"enquirer": "^2.3.6",
+		"shelljs": "^0.8.4",
 		"swear": "^1.1.0"
 	}
 }
