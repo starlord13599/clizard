@@ -3,12 +3,14 @@
 const folders = require('./folders.json');
 const files = require('./files.json');
 const { green, yellow, blue } = require('chalk');
-const { mkdir, write, exists } = require('./fsm/files');
+const { mkdir, write, exists, read } = require('./fsm/files');
 const shell = require('shelljs');
-const { Select, prompt } = require('enquirer');
+const { prompt } = require('enquirer');
 
-const nodeModules = [ 'express', 'ejs', 'sequelize', 'express-ejs-layouts' ];
+//to be installed modules from npm registry
+const nodeModules = [ 'sequelize', 'express', 'ejs', 'express-ejs-layouts' ];
 
+//function to create folders
 async function createFolders(folders) {
 	console.log(yellow('Creating folders ....'));
 
@@ -21,6 +23,7 @@ async function createFolders(folders) {
 	return true;
 }
 
+//function to create files
 async function createFiles(files) {
 	console.log(yellow('Creating files....'));
 
@@ -33,6 +36,7 @@ async function createFiles(files) {
 	return true;
 }
 
+//function to install packages
 async function installPackages(nodeModules) {
 	let allModules = nodeModules.join(' ');
 	console.log(`Installing packages ... ${nodeModules.join(',')}`);
@@ -41,58 +45,103 @@ async function installPackages(nodeModules) {
 	return true;
 }
 
-async function initSequelize() {
+//function to initailize config file
+async function initConfig() {
 	console.log('Initializing Sequelize configuration');
-	shell.exec(`npx sequelize init`);
+	await shell.exec(`npx sequelize init:config`);
 	return true;
 }
 
-async function main() {
+//function to initailize migrations folder
+async function initMigrations() {
+	console.log('Initializing Sequelize migrations');
+	await shell.exec(`npx sequelize init:migrations`);
+	return true;
+}
+
+//function to initialize seeders folder
+async function initSeeders() {
+	console.log('Initializing Sequelize Seeders');
+	await shell.exec(`npx sequelize init:seeders`);
+	return true;
+}
+
+//function to initialize models folder
+async function initModel() {
+	console.log('Initializing Sequelize Seeders');
+	await shell.exec(`npx sequelize init:models`);
+	return true;
+}
+
+//update the config/database.json file according to users need
+async function updateConfig(result) {
+	let config;
+	const { environment, username, password, database } = result;
+	if (await exists('./config/database.json')) {
+		config = JSON.parse(await read('./config/database.json'));
+
+		let data = config[environment];
+		data.username = username;
+		data.password = password;
+		data.database = database;
+
+		await write('./config/database.json', JSON.stringify(config));
+		console.log('Config file updated successfully');
+	}
+	return true;
+}
+
+//asyncly runs all the functions
+async function main(result) {
 	await createFolders(folders);
 	await createFiles(files);
 	await installPackages(nodeModules);
-	await initSequelize();
+	await initConfig();
+	await initMigrations();
+	await initSeeders();
+	await initModel();
+	await updateConfig(result);
+	return true;
 }
 
-const prompt1 = new Select({
-	name: 'Config',
-	message: 'For what do you want to create this setup?',
-	choices: [ 'development', 'production' ]
-});
+//prompts user with questions
+async function propmtQuestions() {
+	const data = await prompt([
+		{
+			type: 'input',
+			name: 'environment',
+			message: 'Do you want to run in development or production environment?'
+		},
+		{
+			type: 'input',
+			name: 'username',
+			message: 'Please provide databse username👱'
+		},
+		{
+			type: 'input',
+			name: 'password',
+			message: 'Please provide databse password ✏'
+		},
+		{
+			type: 'input',
+			name: 'database',
+			message: 'Please provide databse name 📚'
+		}
+	]);
+	return data;
+}
 
-prompt1
-	.run()
-	.then(async (env) => {
-		let environment = env;
-
-		const prompt2 = await prompt([
-			{
-				type: 'input',
-				name: 'dbUsername',
-				message: 'Please provide databse username👱'
-			},
-			{
-				type: 'input',
-				name: 'dbPassword',
-				message: 'Please provide databse password ✏'
-			},
-			{
-				type: 'input',
-				name: 'dbDatabaseName',
-				message: 'Please provide databse name 📚'
-			}
-		]);
-
-		prompt2.environment = environment;
-
-		main()
-			.then(async () => {
-				// TODO: the database.json file created should be automatically updated with details taken from user
-
+//the file runns from here
+propmtQuestions()
+	.then((result) => {
+		main(result)
+			.then(() => {
 				console.log(green('Setup is ready'));
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 	})
-	.catch(() => {});
+	.catch((err) => {
+		console.log(err);
+	});
