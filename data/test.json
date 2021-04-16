@@ -1,3 +1,7 @@
 {
-	"data": "function test (req,res,next){ \r\n //code goes here \r\n next() \r\n } \r\n"
+	"data": "module.exports={test:function(req,res,next){\r\n//code goes here\r\nnext()\r\n}\r\n}\r\n",
+	"functionSnippet": ",test:function(req,res,next){ \r\n //code goes here \r\n next() \r\n}",
+	"controllerSnippet": ",test:function(req,res,next){\r\nres.status(200).json({'status':1,'message':'Success'})\r\nnext()\r\n}",
+	"simpleFunctionSnippet": "function test (){}\n\r",
+	"moduleExport": "module.exports = {}"
 }

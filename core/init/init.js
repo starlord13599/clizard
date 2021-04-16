@@ -1,6 +1,13 @@
 const { createFiles, createFolders } = require('./src/folderAndFile');
 const { installPackages } = require('./src/packages');
-const { updateConfig, initConfig, initMigrations, initModel, initSeeders } = require('./src/sequelizeConfig');
+const {
+	updateConfig,
+	initConfig,
+	initMigrations,
+	initModel,
+	initSeeders,
+	createDatabase
+} = require('./src/sequelizeConfig');
 const { propmtQuestions } = require('./src/question');
 
 //asyncly runs all the functions
@@ -14,6 +21,7 @@ async function main(configs, folders, files, nodeModules) {
 		await initSeeders();
 		await initModel();
 		await updateConfig(configs);
+		await createDatabase();
 		return true;
 	} catch (error) {
 		throw new Error(error);
@@ -24,7 +32,22 @@ async function main(configs, folders, files, nodeModules) {
 async function init() {
 	const folders = require('../../data/folders.json');
 	const files = require('../../data/files.json');
-	const nodeModules = [ 'sequelize', 'express', 'ejs', 'express-ejs-layouts' ];
+	const nodeModules = [
+		'sequelize',
+		'enquirer',
+		'express',
+		'ejs',
+		'express-ejs-layouts',
+		'morgan',
+		'chalk',
+		'dotenv',
+		'mysql2',
+		'umzug',
+		'portastic',
+		'swear',
+		'atocha',
+		'lodash'
+	];
 
 	configs = await propmtQuestions();
 	return await main(configs, folders, files, nodeModules);

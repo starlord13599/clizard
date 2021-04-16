@@ -4,7 +4,7 @@
 		"hasChild": true
 	},
 	{
-		"folderName": "test",
+		"folderName": "services",
 		"hasChild": true
 	},
 	{
@@ -12,15 +12,11 @@
 		"isFolder": true
 	},
 	{
-		"folderName": "controller",
+		"folderName": "functions",
 		"isFolder": true
 	},
 	{
 		"folderName": "middleware",
-		"isFolder": true
-	},
-	{
-		"folderName": "routes",
 		"isFolder": true
 	},
 	{
@@ -32,7 +28,11 @@
 		"isFolder": true
 	},
 	{
-		"folderName": "helper",
+		"folderName": "helpers",
+		"isFolder": true
+	},
+	{
+		"folderName": "helpers/fsm",
 		"isFolder": true
 	}
 ]

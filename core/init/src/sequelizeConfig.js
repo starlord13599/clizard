@@ -1,34 +1,35 @@
 const shell = require('shelljs');
 const { green, yellow } = require('chalk');
 const { read, write } = require('../../../fsm/files');
-const { checkExists } = require('../../../helpers/helpers');
+const { checkExists, shellCommand } = require('../../../helpers/helpers');
 
 //* OPTIMIZE THIS INTO ONE FUNCTION
 //function to initailize config file
 async function initConfig() {
-	console.log(yellow('Initializing Sequelize configuration'));
-	await shell.exec(`npx sequelize init:config`);
+	await shellCommand('npx sequelize init:config', 'Initializing Sequelize configuration');
 	return true;
 }
 
 //function to initailize migrations folder
 async function initMigrations() {
-	console.log(yellow('Initializing Sequelize migrations'));
-	await shell.exec(`npx sequelize init:migrations`);
+	await shellCommand('npx sequelize init:migrations', 'Initializing Sequelize migrations');
 	return true;
 }
 
 //function to initialize seeders folder
 async function initSeeders() {
-	console.log(yellow('Initializing Sequelize Seeders'));
-	await shell.exec(`npx sequelize init:seeders`);
+	await shellCommand('npx sequelize init:seeders', 'Initializing Sequelize seeders');
 	return true;
 }
 
 //function to initialize models folder
 async function initModel() {
-	console.log(yellow('Initializing Sequelize Models'));
-	await shell.exec(`npx sequelize init:models`);
+	await shellCommand('npx sequelize init:models', 'Initializing Sequelize model');
+	return true;
+}
+
+async function createDatabase() {
+	await shellCommand('npx sequelize db:create', 'Creating database');
 	return true;
 }
 //* /OPTIMIZE THIS INTO ONE FUNCTION
@@ -54,4 +55,4 @@ async function updateConfig(result) {
 	return true;
 }
 
-module.exports = { updateConfig, initConfig, initMigrations, initModel, initSeeders };
+module.exports = { updateConfig, initConfig, initMigrations, initModel, createDatabase, initSeeders };

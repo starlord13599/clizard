@@ -1,9 +1,1 @@
-[
-	{
-		"method": "get",
-		"url": "/",
-		"globalMiddlewares": "['all global middlewares goes here']",
-		"middlewares": "['all local middleware goes here']",
-		"controller": "all controllers goes here"
-	}
-]
+[]

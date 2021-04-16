@@ -6,6 +6,8 @@ const { green, red } = require('chalk');
 const { init } = require('./core/init/init');
 const { createApiModule } = require('./core/createModule/createApiModule');
 const { createApi } = require('./core/createApi/createApi');
+const { createFunction } = require('./core/createFunction/createFunctions');
+const ora = require('ora');
 
 program.version(packageConfig.version).description(packageConfig.description);
 
@@ -26,7 +28,7 @@ program.command('init').description('To initialize the basic setup').action(() =
 program.command('create-api-module <moduleName>').description('to create a api module').action((moduleName) => {
 	createApiModule(moduleName)
 		.then((result) => {
-			if (result) console.log('Command ran successfully');
+			if (result) ora('Command ran successfully').succeed();
 		})
 		.catch((err) => {
 			console.log(err);
@@ -37,11 +39,20 @@ program.command('create-api-module <moduleName>').description('to create a api m
 program.command('create-api').description('to create an api endpoint').action(() => {
 	createApi()
 		.then((result) => {
-			console.log('Created successfully');
+			ora('Created successfully').succeed();
 		})
 		.catch((err) => {
-			console.log(err);
+			console.log(err.message);
 		});
 });
 
+//to create functions
+program
+	.command('create-function')
+	.description('to create a function which will be stored in global variable')
+	.action(() => {
+		createFunction().then((result) => {}).catch((err) => {
+			console.log(err.message);
+		});
+	});
 program.parse(process.argv);
