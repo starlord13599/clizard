@@ -8,5 +8,4 @@ async function propmtPathQuestion() {
 
 	return list;
 }
-
 module.exports = { propmtPathQuestion };

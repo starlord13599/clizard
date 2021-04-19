@@ -1,7 +1,8 @@
 {
 	"data": "module.exports={test:function(req,res,next){\r\n//code goes here\r\nnext()\r\n}\r\n}\r\n",
+	"SnippetWithoutNext": "module.exports={test:function(req,res,next){\r\n//code goes here\r\n}\r\n}\r\n",
 	"functionSnippet": ",test:function(req,res,next){ \r\n //code goes here \r\n next() \r\n}",
 	"controllerSnippet": ",test:function(req,res,next){\r\nres.status(200).json({'status':1,'message':'Success'})\r\nnext()\r\n}",
-	"simpleFunctionSnippet": "function test (){}\n\r",
-	"moduleExport": "module.exports = {}"
+	"simpleFunctionSnippet": "function test (){\n console.log('This is just a test function') \n}\n\r",
+	"forFunctionComment": "/*\nWrite all the function you want to store in module.export of last nested obj\ne.g:- function to be exported:test()\nmodule.export= {path:{from:{to:{test}}}}\n*/\n\r"
 }

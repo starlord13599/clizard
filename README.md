@@ -153,3 +153,6 @@ module.exports = {
 _to explain the perfect flow of this setup will soon add a link to that repo_
 
 ___NOTE :-___ _This setup is just merely made for practise purpose of the user who created it. Please do use it at your own risk. Contents may vary_
+
+## TO BE DOCUMENTED ##
+clizard create-function

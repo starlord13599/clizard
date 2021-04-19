@@ -8,6 +8,8 @@ const { createApiModule } = require('./core/createModule/createApiModule');
 const { createApi } = require('./core/createApi/createApi');
 const { createFunction } = require('./core/createFunction/createFunctions');
 const ora = require('ora');
+const { createGMiddleware } = require('./core/createGMiddleware/createGMiddleware');
+const { createGService } = require('./core/createGService/createGService');
 
 program.version(packageConfig.version).description(packageConfig.description);
 
@@ -16,6 +18,7 @@ program.command('init').description('To initialize the basic setup').action(() =
 	init()
 		.then((result) => {
 			if (result) {
+				global.isConfigured = false;
 				console.log(green('Setup is ready'));
 			}
 		})
@@ -55,4 +58,27 @@ program
 			console.log(err.message);
 		});
 	});
+
+//to create global middleware
+program.command('create-gmiddleware').description('To create a global middleware boilerplate').action(() => {
+	createGMiddleware()
+		.then((result) => {
+			console.log('Command ran successfully');
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
+
+//to create a global service
+program.command('create-gservice').description('To create a global service boilerplate').action(() => {
+	createGService()
+		.then((result) => {
+			console.log(result);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
+
 program.parse(process.argv);

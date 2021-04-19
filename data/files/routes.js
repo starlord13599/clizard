@@ -23,6 +23,7 @@ async function getAllRoutes() {
 			return requiredMiddleware[m];
 		});
 	}
+
 	for (const route of routesData) {
 		route.controller = route.controller.split('.')[1];
 		let requiredController = require(route.controllerPath);

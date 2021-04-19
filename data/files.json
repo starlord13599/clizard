@@ -68,5 +68,25 @@
 		"fileName": "globalMiddleware.js",
 		"fromPath": "../../../data/files/globalMiddleware.js",
 		"toPath": "./middleware/globalMiddleware.js"
+	},
+	{
+		"fileName": "globalServices.js",
+		"fromPath": "../../../data/files/globalMiddleware.js",
+		"toPath": "./services/globalServices.js"
+	},
+	{
+		"fileName": "services.js",
+		"fromPath": "../../../data/files/services.js",
+		"toPath": "./core/services.js"
+	},
+	{
+		"fileName": "moduleFunctions.js",
+		"fromPath": "../../../data/files/moduleFunctions.js",
+		"toPath": "./core/moduleFunctions.js"
+	},
+	{
+		"fileName": "moduleServices.js",
+		"fromPath": "../../../data/files/moduleServices.js",
+		"toPath": "./core/moduleServices.js"
 	}
 ]

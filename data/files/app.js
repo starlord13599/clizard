@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
+global.setup = {};
 const express = require('express');
 const app = express();
 const chalk = require('chalk');
@@ -10,6 +11,10 @@ const { findFreePort } = require('./helpers/port');
 const { Toggle } = require('enquirer');
 const { initializeDatabseConnection } = require('./core/connection');
 const { getAllRoutes } = require('./core/routes.js');
+require('./core/functions')();
+require('./core/services')();
+require('./core/moduleFunctions')();
+require('./core/moduleServices')();
 
 //STATIC
 app.use(express.static('public'));

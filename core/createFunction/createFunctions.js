@@ -11,13 +11,13 @@ async function createFunction() {
 			throw new Error('the file already exsists');
 		}
 
-		let { simpleFunctionSnippet } = require('../../data/test.json');
+		let { simpleFunctionSnippet, forFunctionComment } = require('../../data/test.json');
 
 		let value = {};
 		let nestedObj = path.reduceRight((value, path) => ({ [path]: value }), value);
-		let moduleExport = ` module.exports = ${JSON.stringify(nestedObj)}`;
+		let moduleExport = `module.exports = ${JSON.stringify(nestedObj)}`;
 
-		await write(newPath, `${simpleFunctionSnippet} ${moduleExport}`);
+		await write(newPath, `${simpleFunctionSnippet}${forFunctionComment}${moduleExport}`);
 	} catch (err) {
 		throw err;
 	}

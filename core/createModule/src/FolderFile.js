@@ -12,7 +12,6 @@ async function createModule(apiDir, moduleName) {
 	if (!await checkExists(`${apiDir}\\${moduleName}`)) {
 		createdFolder = await mkdir(`${apiDir}\\${moduleName}`);
 	}
-	// ora(createdFolder ? `Module ${moduleName} created` : `Module ${moduleName} already exists`).succeed();
 	return createdFolder;
 }
 
@@ -22,13 +21,26 @@ async function createComponents(folder, moduleName) {
 		if (!folder) {
 			throw new Error('Module already exsist');
 		}
-		let components = [ 'middleware', 'controller', 'service' ];
+		let components = [ 'middleware', 'controller', 'service', 'functions' ];
 		let files = [ 'routes.json' ];
 		const routesJson = require('../../../data/routes.json');
-		const { data } = require('../../../data/test.json');
+		let {
+			data,
+			simpleFunctionSnippet,
+			forFunctionComment,
+			SnippetWithoutNext
+		} = require('../../../data/test.json');
 
 		for (const component of components) {
 			await mkdir(`${folder}\\${component}`);
+			if (component === 'functions') {
+				data = `${simpleFunctionSnippet}\n${forFunctionComment}\nmodule.exports = {api:{${moduleName}:{functions:{${moduleName}:{test}}}}}`; //{api:{auth:{functions:{auth:{}}}}}
+			}
+
+			if (component === 'service') {
+				data = `${SnippetWithoutNext}`;
+			}
+
 			await write(`${folder}\\${component}\\${moduleName}.js`, data);
 		}
 
