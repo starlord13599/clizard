@@ -1,15 +1,6 @@
 const { List, Select } = require('enquirer');
 const { generateFolderNames } = require('./generateFolderName');
 
-async function propmtPathQuestion() {
-	const list = await new List({
-		name: 'path',
-		message: 'Type the path where you want to create this file (Comma separated)'
-	}).run();
-
-	return list;
-}
-
 async function promptOptionQuestion() {
 	const option = await new Select({
 		name: 'option',
@@ -30,13 +21,13 @@ async function propmtModuleQuestion() {
 	return moduleName;
 }
 
-async function promptFunctionNameQuestion() {
-	const list = await new List({
-		name: 'path',
-		message: 'Type the function name(s) you want to create (Comma separated)'
+async function promptGlobalServiceQuestion() {
+	const answer = await new List({
+		name: 'service',
+		message: 'Enter the service you want to create(comma seperated)'
 	}).run();
 
-	return list;
+	return answer;
 }
 
-module.exports = { propmtPathQuestion, propmtModuleQuestion, promptOptionQuestion, promptFunctionNameQuestion };
+module.exports = { promptGlobalServiceQuestion, promptOptionQuestion, propmtModuleQuestion };

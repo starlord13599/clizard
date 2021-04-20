@@ -21,23 +21,15 @@ async function createComponents(folder, moduleName) {
 		if (!folder) {
 			throw new Error('Module already exsist');
 		}
-		let components = [ 'middleware', 'controller', 'service', 'functions' ];
+		let components = [ 'middleware', 'controller', 'services', 'functions' ];
 		let files = [ 'routes.json' ];
 		const routesJson = require('../../../data/routes.json');
-		let {
-			data,
-			simpleFunctionSnippet,
-			forFunctionComment,
-			SnippetWithoutNext
-		} = require('../../../data/test.json');
+		let { data, SnippetWithoutNext } = require('../../../data/test.json');
 
 		for (const component of components) {
 			await mkdir(`${folder}\\${component}`);
-			if (component === 'functions') {
-				data = `${simpleFunctionSnippet}\n${forFunctionComment}\nmodule.exports = {api:{${moduleName}:{functions:{${moduleName}:{test}}}}}`; //{api:{auth:{functions:{auth:{}}}}}
-			}
 
-			if (component === 'service') {
+			if (component === 'service' || component === 'functions') {
 				data = `${SnippetWithoutNext}`;
 			}
 

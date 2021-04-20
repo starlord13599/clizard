@@ -8,8 +8,8 @@ const { createApiModule } = require('./core/createModule/createApiModule');
 const { createApi } = require('./core/createApi/createApi');
 const { createFunction } = require('./core/createFunction/createFunctions');
 const ora = require('ora');
-const { createGMiddleware } = require('./core/createGMiddleware/createGMiddleware');
-const { createGService } = require('./core/createGService/createGService');
+const { createMiddleware } = require('./core/createMiddleware/createMiddleware');
+const { createService } = require('./core/createService/createService');
 
 program.version(packageConfig.version).description(packageConfig.description);
 
@@ -54,14 +54,18 @@ program
 	.command('create-function')
 	.description('to create a function which will be stored in global variable')
 	.action(() => {
-		createFunction().then((result) => {}).catch((err) => {
-			console.log(err.message);
-		});
+		createFunction()
+			.then((result) => {
+				console.log('Command ran successfully');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	});
 
 //to create global middleware
-program.command('create-gmiddleware').description('To create a global middleware boilerplate').action(() => {
-	createGMiddleware()
+program.command('create-middleware').description('To create a global middleware boilerplate').action(() => {
+	createMiddleware()
 		.then((result) => {
 			console.log('Command ran successfully');
 		})
@@ -71,10 +75,10 @@ program.command('create-gmiddleware').description('To create a global middleware
 });
 
 //to create a global service
-program.command('create-gservice').description('To create a global service boilerplate').action(() => {
-	createGService()
+program.command('create-service').description('To create a global service boilerplate').action(() => {
+	createService()
 		.then((result) => {
-			console.log(result);
+			console.log('Command ran successfully');
 		})
 		.catch((err) => {
 			console.log(err);

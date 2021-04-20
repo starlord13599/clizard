@@ -1,7 +1,7 @@
 const { read, write } = require('../../../fsm/files');
 
-async function updateServices(globalServices, functionSnippet) {
-	const readData = await read(`${process.cwd()}/services/globalServices.js`).split('\n');
+async function updateServices(globalServices, functionSnippet, path) {
+	const readData = await read(path).split('\n');
 
 	let idx = readData.lastIndexOf('');
 
@@ -11,7 +11,7 @@ async function updateServices(globalServices, functionSnippet) {
 	}
 
 	const newData = readData.join('\n');
-	await write(`${process.cwd()}/services/globalServices.js`, newData);
+	await write(path, newData);
 	return true;
 }
 

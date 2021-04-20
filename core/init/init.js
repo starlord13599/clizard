@@ -1,5 +1,5 @@
 const { createFiles, createFolders } = require('./src/folderAndFile');
-const { installPackages } = require('./src/packages');
+const { installPackages, initPackage } = require('./src/packages');
 const {
 	updateConfig,
 	initConfig,
@@ -15,6 +15,7 @@ async function main(configs, folders, files, nodeModules) {
 	try {
 		await createFolders(folders);
 		await createFiles(files);
+		await initPackage();
 		await installPackages(nodeModules);
 		await initConfig();
 		await initMigrations();
@@ -39,6 +40,7 @@ async function init() {
 		'ejs',
 		'express-ejs-layouts',
 		'morgan',
+		'multer',
 		'chalk',
 		'dotenv',
 		'mysql2',
@@ -46,7 +48,8 @@ async function init() {
 		'portastic',
 		'swear',
 		'atocha',
-		'lodash'
+		'lodash',
+		'node-cron'
 	];
 
 	configs = await propmtQuestions();

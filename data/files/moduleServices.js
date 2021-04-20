@@ -7,7 +7,7 @@ async function walkModuleServices() {
 
 	let filePaths = [];
 	for (const folder of moduleFolders) {
-		let files = await walk(`${folder}/service`);
+		let files = await walk(`${folder}/services`);
 		filePaths = [ ...filePaths, ...files ];
 	}
 

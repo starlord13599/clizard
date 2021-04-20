@@ -1,7 +1,7 @@
 const { read, write } = require('../../../fsm/files');
 
-async function updateGlobalMiddleware(globalMiddlewares, functionSnippet) {
-	const readData = await read(`${process.cwd()}/middleware/globalMiddleware.js`).split('\n');
+async function updateMiddleware(globalMiddlewares, functionSnippet, path) {
+	const readData = await read(path).split('\n');
 
 	let idx = readData.lastIndexOf('');
 
@@ -11,8 +11,8 @@ async function updateGlobalMiddleware(globalMiddlewares, functionSnippet) {
 	}
 
 	const newData = readData.join('\n');
-	await write(`${process.cwd()}/middleware/globalMiddleware.js`, newData);
+	await write(path, newData);
 	return true;
 }
 
-module.exports = { updateGlobalMiddleware };
+module.exports = { updateMiddleware };

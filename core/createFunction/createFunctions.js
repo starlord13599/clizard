@@ -1,23 +1,36 @@
-const { write } = require('../../fsm/files');
+const { write, list, name } = require('../../fsm/files');
 const { checkExists } = require('../../helpers/helpers');
-const { propmtPathQuestion } = require('./src/propmtPathQuestion');
+const {
+	propmtPathQuestion,
+	propmtModuleQuestion,
+	promptOptionQuestion,
+	promptFunctionNameQuestion
+} = require('./src/propmtPathQuestion');
+const { updateFunctionFile, updateGlobalFunctionFile } = require('./src/updateFunctionFile');
 
 async function createFunction() {
 	try {
-		const path = await propmtPathQuestion();
-		let newPath = `./functions/${path.join('/')}.js`;
+		const option = await promptOptionQuestion();
+		const { funcWithoutNext, SnippetWithoutNext } = require('../../data/test.json');
 
-		if (await checkExists(newPath)) {
-			throw new Error('the file already exsists');
+		switch (option) {
+			case 'module':
+				let moduleName = await propmtModuleQuestion();
+				let functionNames = await promptFunctionNameQuestion();
+				await updateFunctionFile(functionNames, funcWithoutNext, moduleName);
+				break;
+
+			default:
+				const path = await propmtPathQuestion();
+				const globalFunctionNames = await promptFunctionNameQuestion();
+				let newPath = `./functions/${path.join('/')}.js`;
+
+				if (!await checkExists(newPath)) {
+					await write(newPath, SnippetWithoutNext);
+				}
+				await updateGlobalFunctionFile(globalFunctionNames, funcWithoutNext, newPath);
+				break;
 		}
-
-		let { simpleFunctionSnippet, forFunctionComment } = require('../../data/test.json');
-
-		let value = {};
-		let nestedObj = path.reduceRight((value, path) => ({ [path]: value }), value);
-		let moduleExport = `module.exports = ${JSON.stringify(nestedObj)}`;
-
-		await write(newPath, `${simpleFunctionSnippet}${forFunctionComment}${moduleExport}`);
 	} catch (err) {
 		throw err;
 	}

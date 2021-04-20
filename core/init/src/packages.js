@@ -7,4 +7,8 @@ async function installPackages(nodeModules) {
 	return true;
 }
 
-module.exports = { installPackages };
+async function initPackage() {
+	await shellCommand('npm init -y', 'Running npm init -y');
+}
+
+module.exports = { installPackages, initPackage };
