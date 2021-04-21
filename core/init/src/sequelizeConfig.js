@@ -2,6 +2,7 @@ const shell = require('shelljs');
 const { green, yellow } = require('chalk');
 const { read, write } = require('../../../fsm/files');
 const { checkExists, shellCommand } = require('../../../helpers/helpers');
+const ora = require('ora');
 
 //* OPTIMIZE THIS INTO ONE FUNCTION
 //function to initailize config file
@@ -28,9 +29,13 @@ async function initModel() {
 	return true;
 }
 
-async function createDatabase() {
-	await shellCommand('npx sequelize db:create', 'Creating database');
-	return true;
+async function createDatabase(isConfigured) {
+	if (isConfigured) {
+		await shellCommand('npx sequelize db:create', 'Creating database');
+		return true;
+	}
+	ora('Environment set to null,Cannot create database').warn();
+	return false;
 }
 //* /OPTIMIZE THIS INTO ONE FUNCTION
 

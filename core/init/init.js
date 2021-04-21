@@ -8,10 +8,10 @@ const {
 	initSeeders,
 	createDatabase
 } = require('./src/sequelizeConfig');
-const { propmtQuestions } = require('./src/question');
+const { propmtQuestions, promptEnvironmentQuestion } = require('./src/question');
 
 //asyncly runs all the functions
-async function main(configs, folders, files, nodeModules) {
+async function main(configs, folders, files, nodeModules, isConfigured) {
 	try {
 		await createFolders(folders);
 		await createFiles(files);
@@ -22,7 +22,7 @@ async function main(configs, folders, files, nodeModules) {
 		await initSeeders();
 		await initModel();
 		await updateConfig(configs);
-		await createDatabase();
+		await createDatabase(isConfigured);
 		return true;
 	} catch (error) {
 		throw new Error(error);
@@ -52,8 +52,21 @@ async function init() {
 		'node-cron'
 	];
 
-	configs = await propmtQuestions();
-	return await main(configs, folders, files, nodeModules);
+	const environment = await promptEnvironmentQuestion();
+	let configs;
+	let isConfigured;
+	switch (environment) {
+		case 'development' || 'production':
+			configs = await propmtQuestions();
+			isConfigured = true;
+			break;
+
+		default:
+			isConfigured = false;
+			break;
+	}
+
+	return await main({ environment, ...configs }, folders, files, nodeModules, isConfigured);
 }
 
 module.exports = { init };

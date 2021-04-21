@@ -1,13 +1,8 @@
-const { prompt } = require('enquirer');
+const { prompt, Select } = require('enquirer');
 
 //prompts user with questions
 async function propmtQuestions() {
 	const data = await prompt([
-		{
-			type: 'input',
-			name: 'environment',
-			message: 'Do you want to run in development or production environment?'
-		},
 		{
 			type: 'input',
 			name: 'username',
@@ -27,4 +22,13 @@ async function propmtQuestions() {
 	return data;
 }
 
-module.exports = { propmtQuestions };
+async function promptEnvironmentQuestion() {
+	const answer = await new Select({
+		message: 'For which environment you want to create this setup?',
+		choices: [ 'development', 'production', 'none' ],
+		name: 'environment'
+	}).run();
+	return answer;
+}
+
+module.exports = { propmtQuestions, promptEnvironmentQuestion };
