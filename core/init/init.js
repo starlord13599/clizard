@@ -56,7 +56,8 @@ async function init() {
 	let configs;
 	let isConfigured;
 	switch (environment) {
-		case 'development' || 'production':
+		case 'development':
+		case 'production':
 			configs = await propmtQuestions();
 			isConfigured = true;
 			break;

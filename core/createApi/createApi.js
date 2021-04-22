@@ -35,16 +35,11 @@ async function createApi() {
 				break;
 
 			default:
-				// push data in routeData
-				routeData.push(data);
-				//storing the function snippet in variable
-				const { functionSnippet, controllerSnippet } = require('../../data/test.json');
-				//creating/updating middleware
-				updateMiddlewareFile(data, functionSnippet, moduleName);
-				//creating/updating controller
-				updateControllerFile(data, controllerSnippet, moduleName);
-				//creating/updating globalMiddleware
-				updateGlobalMiddleware(data, functionSnippet);
+				routeData.push(data); // push data in routeData
+				const { functionSnippet, controllerSnippet } = require('../../data/test.json'); //storing the function snippet in variable
+				updateMiddlewareFile(data, functionSnippet, moduleName); //creating/updating middleware
+				updateControllerFile(data, controllerSnippet, moduleName); //creating/updating controller
+				updateGlobalMiddleware(data, functionSnippet); //creating/updating globalMiddleware
 				break;
 		}
 

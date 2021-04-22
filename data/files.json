@@ -88,5 +88,10 @@
 		"fileName": "moduleServices.js",
 		"fromPath": "../../../data/files/moduleServices.js",
 		"toPath": "./core/moduleServices.js"
+	},
+	{
+		"fileName": "generateApiDocs.js",
+		"fromPath": "../../../data/files/generateApiDocs.js",
+		"toPath": "./core/generateApiDocs.js"
 	}
 ]

@@ -34,5 +34,13 @@
 	{
 		"folderName": "helpers/fsm",
 		"isFolder": true
+	},
+	{
+		"folderName": "apidocs/src",
+		"isFolder": true
+	},
+	{
+		"folderName": "apidocs/dest",
+		"isFolder": true
 	}
 ]

@@ -150,9 +150,82 @@ module.exports = {
 };
 
 ```
+
+----
+
+## 4.) create-function ##
+
+As soon the user runs this command he/she will be prompted with few questions
+
+1.)At what level does he want to create this function? _[module|global]_
+
+If global...
+
+2.)Enter the path where he wants to create this function(comma seperated)? _from,to,foo_
+
+3.)Enter the name of the function you want to create? _bar_
+
+It will then automatic create a function in root function folder
+
+If module...
+2.)Select the module you want to create it for..?_blog_
+
+3.)Enter the path you want to create this function in(comma seperated)? _to,from,boo_
+
+4.)Enter the name of the function you want to create? _moo_
+
+After doing so the function will be created in that specific selected module...
+
+---
+
+## 5.) create-service ##
+
+When run, the user is prompted with the below questions
+
+1.)At what level do you want to create this service _[global|module]_
+
+If global...
+
+2.)Enter the service you want to create(comma seperated) _foo,bar,far_
+
+After entering the name the services will be created automatically in the root service folder
+
+If module...
+
+2.)Select the module you want to create it for..?_blog_
+
+3.)Enter the name of the services you want to create (comma seperated)? _moo,koo_
+
+After entering the names the services will be created in that respective module's service folder
+
+---
+
+## create-middleware ##
+
+When run, the user is prompted with the below questions
+
+1.)At what level do you want to create this service _[global|module]_
+
+If global ...
+
+2.)Enter the name of the global middleware you want to create? _global_
+
+This will then directly create the global middleware in the root middleware folder
+
+If module ...
+
+2.)Select the module you want to create it for..?_blog_
+
+3.)For which url you want to create this middleware for? _/show_
+
+4.)what method do it have? _[get|post]etc_
+
+4.)Enter the name of the middlware you want to create? _foobar_
+
+After this the middleware will be created with the specified name and will also update the routes.js file with the following details
+
+---
 _to explain the perfect flow of this setup will soon add a link to that repo_
 
 ___NOTE :-___ _This setup is just merely made for practise purpose of the user who created it. Please do use it at your own risk. Contents may vary_
 
-## TO BE DOCUMENTED ##
-clizard create-function
