@@ -42,5 +42,9 @@
 	{
 		"folderName": "apidocs/dest",
 		"isFolder": true
+	},
+	{
+		"folderName": "dbLog",
+		"isFolder": true
 	}
 ]

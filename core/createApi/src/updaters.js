@@ -11,10 +11,13 @@ async function updateMiddlewareFile({ middlewares }, functionSnippet, moduleName
 	let idx = readData.lastIndexOf('');
 
 	middlewares.forEach(async (middleware) => {
-		const splited = middleware.split('.')[1];
-		let updatedSnippet = functionSnippet.replace('test', splited);
-		readData.splice(idx - 1, 0, updatedSnippet);
+		if (readData.find((match) => match.includes(`${middleware}:`)) === undefined) {
+			const splited = middleware.split('.')[1];
+			let updatedSnippet = functionSnippet.replace('test', splited);
+			readData.splice(idx - 1, 0, updatedSnippet);
+		}
 	});
+
 	const newData = readData.join('\n');
 	await write(`${process.cwd()}/api/${moduleName}/middleware/${moduleName}.js`, newData);
 	return true;
@@ -30,8 +33,10 @@ async function updateControllerFile({ controller }, functionSnippet, moduleName)
 	let idx = readData.lastIndexOf('');
 	const splited = controller.split('.')[1];
 
-	let updatedSnippet = functionSnippet.replace('test', splited);
-	readData.splice(idx - 1, 0, updatedSnippet);
+	if (readData.find((match) => match.includes(`${splited}:`)) === undefined) {
+		let updatedSnippet = functionSnippet.replace('test', splited);
+		readData.splice(idx - 1, 0, updatedSnippet);
+	}
 
 	const newData = readData.join('\n');
 	await write(`${process.cwd()}/api/${moduleName}/controller/${moduleName}.js`, newData);
@@ -44,9 +49,10 @@ async function updateGlobalMiddleware({ globalMiddlewares }, functionSnippet) {
 
 	let idx = readData.lastIndexOf('');
 	globalMiddlewares.forEach(async (middleware) => {
-		// const splited = middleware.split('.')[1];
-		let updatedSnippet = functionSnippet.replace('test', middleware);
-		readData.splice(idx - 1, 0, updatedSnippet);
+		if (readData.find((match) => match.includes(`${middleware}:`)) === undefined) {
+			let updatedSnippet = functionSnippet.replace('test', middleware);
+			readData.splice(idx - 1, 0, updatedSnippet);
+		}
 	});
 	const newData = readData.join('\n');
 	await write(`${process.cwd()}/middleware/globalMiddleware.js`, newData);

@@ -25,7 +25,8 @@ app.use('/js', express.static(__dirname + 'public/js'));
 //MIDDLEWARE
 app.use(morgan(':remote-addr| :method| :total-time[2] ms| :status| :date[web]'));
 app.use(ejsLayout);
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 //TEMPLATE ENGINE
 app.set('view engine', 'ejs');
 app.set('layout', './layouts/oneColumn.ejs');

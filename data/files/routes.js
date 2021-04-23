@@ -30,6 +30,11 @@ async function getAllRoutes() {
 		route.controller = requiredController[route.controller];
 	}
 
+	for (const route of routesData) {
+		let requiredGlobalMiddleware = require('../middleware/globalMiddleware');
+		route.globalMiddlewares = route.globalMiddlewares.map((m) => requiredGlobalMiddleware[m]);
+	}
+
 	return routesData;
 }
 

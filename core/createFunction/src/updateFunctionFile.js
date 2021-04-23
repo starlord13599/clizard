@@ -23,8 +23,10 @@ async function updateGlobalFunctionFile(functions, functionSnippet, path) {
 	let idx = readData.lastIndexOf('');
 
 	functions.forEach(async (func) => {
-		let updatedSnippet = functionSnippet.replace('test', func);
-		readData.splice(idx - 1, 0, updatedSnippet);
+		if (readData.find((match) => match.includes(`${func}:`)) === undefined) {
+			let updatedSnippet = functionSnippet.replace('test', func);
+			readData.splice(idx - 1, 0, updatedSnippet);
+		}
 	});
 	const newData = readData.join('\n');
 	await write(path, newData);

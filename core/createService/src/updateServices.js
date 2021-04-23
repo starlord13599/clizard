@@ -6,8 +6,10 @@ async function updateServices(globalServices, functionSnippet, path) {
 	let idx = readData.lastIndexOf('');
 
 	for (const service of globalServices) {
-		let updatedSnippet = functionSnippet.replace('test', service);
-		readData.splice(idx - 1, 0, updatedSnippet);
+		if (readData.find((match) => match.includes(`${service}:`)) === undefined) {
+			let updatedSnippet = functionSnippet.replace('test', service);
+			readData.splice(idx - 1, 0, updatedSnippet);
+		}
 	}
 
 	const newData = readData.join('\n');
