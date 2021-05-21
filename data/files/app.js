@@ -11,6 +11,7 @@ const { findFreePort } = require('./helpers/port');
 const { Toggle } = require('enquirer');
 const { initializeDatabseConnection } = require('./core/connection');
 const { getAllRoutes } = require('./core/routes.js');
+const { errorHandler, logErrors } = require('./core/errorHandlers');
 require('./core/functions')();
 require('./core/services')();
 require('./core/moduleFunctions')();
@@ -37,6 +38,8 @@ getAllRoutes()
 		for (const route of routes) {
 			app[route.method](route.url, ...route.middlewares, route.controller);
 		}
+		app.use(logErrors);
+		app.use(errorHandler);
 	})
 	.catch((err) => {
 		console.log(err);

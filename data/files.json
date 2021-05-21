@@ -93,5 +93,10 @@
 		"fileName": "generateApiDocs.js",
 		"fromPath": "../../../data/files/generateApiDocs.js",
 		"toPath": "./core/generateApiDocs.js"
+	},
+	{
+		"fileName": "errorHandlers.js",
+		"fromPath": "../../../data/files/errorHandlers.js",
+		"toPath": "./core/errorHandlers.js"
 	}
 ]
