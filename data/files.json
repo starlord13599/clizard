@@ -40,11 +40,6 @@
 		"toPath": "./core/routes.js"
 	},
 	{
-		"fileName": ".gitignore",
-		"fromPath": "../../../data/files/.gitignore",
-		"toPath": "./.gitignore"
-	},
-	{
 		"fileName": "migrations.js",
 		"fromPath": "../../../data/files/migrations.js",
 		"toPath": "./helpers/migrations.js"
