@@ -16,7 +16,9 @@
 		"url": "https://github.com/starlord13599/clizard/issues"
 	},
 	"homepage": "https://github.com/starlord13599/clizard#readme",
-	"bin": {},
+	"bin": {
+		"clizard": "app.js"
+	},
 	"dependencies": {
 		"atocha": "^1.2.2",
 		"chalk": "^4.1.0",
