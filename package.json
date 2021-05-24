@@ -17,10 +17,7 @@
 	},
 	"homepage": "https://github.com/starlord13599/clizard#readme",
 	"bin": {
-		"init": "index.js",
-		"create-api-module": "createModule.js",
-		"create-api": "createApi.js",
-		"clizard": "app.js"
+		
 	},
 	"dependencies": {
 		"atocha": "^1.2.2",
