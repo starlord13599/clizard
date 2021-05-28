@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { abs } = require('../fsm/files');
+const path = require('path');
 const ora = require('ora');
 const { spawn } = require('child_process');
 
@@ -27,4 +27,23 @@ function shellCommand(command, mssge = 'Processing...') {
 	});
 }
 
-module.exports = { checkExists, shellCommand };
+const join = (...parts) => abs(path.join(...parts));
+
+// Retrieve the full, absolute path for the path
+const abs = async (name = '.', base = process.cwd()) => {
+	name = await name;
+	base = await base;
+
+	// Absolute paths do not need more absolutism
+	if (path.isAbsolute(name)) return name;
+
+	// We are off-base here; recover the viable base option
+	if (!base || typeof base !== 'string') {
+		base = process.cwd();
+	}
+
+	// Return the file/folder within the base
+	return join(base, name);
+};
+
+module.exports = { checkExists, shellCommand, abs };

@@ -1,4 +1,6 @@
-const { read, write } = require('../../../fsm/files');
+const path = require('path');
+const { appendFile, pathExistsSync, access } = require('fs-extra');
+const { trim } = require('lodash');
 
 //to append function snippets for functions
 async function updateFunctionFile(functions, functionSnippet, moduleName) {
@@ -6,31 +8,56 @@ async function updateFunctionFile(functions, functionSnippet, moduleName) {
 		return false;
 	}
 
-	const readData = await read(`${process.cwd()}/api/${moduleName}/functions/${moduleName}.js`).split('\n');
-	let idx = readData.lastIndexOf('');
+	let readData = require(path.resolve('api', moduleName, 'functions', `${moduleName}.js`));
+
+	let preparedFunctions = Object.keys(readData);
 
 	functions.forEach(async (func) => {
-		let updatedSnippet = functionSnippet.replace('test', func);
-		readData.splice(idx - 1, 0, updatedSnippet);
-	});
-	const newData = readData.join('\n');
-	await write(`${process.cwd()}/api/${moduleName}/functions/${moduleName}.js`, newData);
-	return true;
-}
-
-async function updateGlobalFunctionFile(functions, functionSnippet, path) {
-	const readData = await read(path).split('\n');
-	let idx = readData.lastIndexOf('');
-
-	functions.forEach(async (func) => {
-		if (readData.find((match) => match.includes(`${func}:`)) === undefined) {
+		if (!isPresent(func, preparedFunctions)) {
 			let updatedSnippet = functionSnippet.replace('test', func);
-			readData.splice(idx - 1, 0, updatedSnippet);
+
+			await appendFile(
+				path.resolve('api', moduleName, 'functions', `${moduleName}.js`),
+				updatedSnippet
+			);
 		}
 	});
-	const newData = readData.join('\n');
-	await write(path, newData);
 	return true;
 }
 
-module.exports = { updateFunctionFile, updateGlobalFunctionFile };
+async function updateGlobalFunctionFile(functions, functionSnippet, obtainedPath) {
+	let preparedFunctions;
+	let readData = require(path.resolve(obtainedPath));
+	preparedFunctions = Object.keys(readData);
+
+	functions.forEach(async (func) => {
+		if (!isPresent(func, preparedFunctions)) {
+			let updatedSnippet = functionSnippet.replace('test', func);
+			await appendFile(path.resolve(obtainedPath), updatedSnippet);
+		}
+	});
+	return true;
+}
+
+function isPresent(middleware, data) {
+	if (!middleware) {
+		return false;
+	}
+
+	if (!data) {
+		return false;
+	}
+
+	return data.some((str) => trim(str) === trim(middleware));
+}
+
+async function checkPath(p) {
+	try {
+		await access(path.resolve(p));
+		return true;
+	} catch (err) {
+		return false;
+	}
+}
+
+module.exports = { updateFunctionFile, updateGlobalFunctionFile, checkPath };

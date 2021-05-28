@@ -39,7 +39,7 @@ program
 				if (result) ora('Command ran successfully').succeed();
 			})
 			.catch((err) => {
-				console.log(err);
+				console.log(err.message);
 			});
 	});
 

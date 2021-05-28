@@ -1,0 +1,38 @@
+[
+	{
+		"folderName": "public"
+	},
+	{
+		"folderName": "services"
+	},
+	{
+		"folderName": "api"
+	},
+	{
+		"folderName": "functions"
+	},
+	{
+		"folderName": "middleware"
+	},
+	{
+		"folderName": "views"
+	},
+	{
+		"folderName": "core"
+	},
+	{
+		"folderName": "helpers"
+	},
+	{
+		"folderName": "helpers/fsm"
+	},
+	{
+		"folderName": "apidocs/src"
+	},
+	{
+		"folderName": "apidocs/dest"
+	},
+	{
+		"folderName": "dbLog"
+	}
+]

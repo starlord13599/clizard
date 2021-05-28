@@ -1,16 +1,15 @@
-const ora = require('ora');
-const { mkdir, exists, write } = require('../../../fsm/files');
-const { checkExists } = require('../../../helpers/helpers');
+const { pathExistsSync, ensureDir, writeFile, writeJson } = require('fs-extra');
 
 //return the module folder created
 async function createModule(apiDir, moduleName) {
-	if (!await exists(apiDir)) {
-		apiDir = await mkdir(apiDir);
+	if (!(await pathExistsSync(apiDir))) {
+		apiDir = await ensureDir(apiDir);
 	}
 
 	let createdFolder;
-	if (!await checkExists(`${apiDir}\\${moduleName}`)) {
-		createdFolder = await mkdir(`${apiDir}\\${moduleName}`);
+
+	if (!(await pathExistsSync(`${apiDir}/${moduleName}`))) {
+		createdFolder = await ensureDir(`${apiDir}/${moduleName}`);
 	}
 	return createdFolder;
 }
@@ -21,24 +20,25 @@ async function createComponents(folder, moduleName) {
 		if (!folder) {
 			throw new Error('Module already exsist');
 		}
-		let components = [ 'middleware', 'controller', 'services', 'functions' ];
-		let files = [ 'routes.json' ];
-		const routesJson = require('../../../data/routes.json');
-		let { data, SnippetWithoutNext } = require('../../../data/test.json');
+
+		let components = ['middleware', 'controller', 'services', 'functions'];
+
+		let { SnippetWithNext, SnippetWithoutNext } = require('./assets/snippets.json');
 
 		for (const component of components) {
-			await mkdir(`${folder}\\${component}`);
+			await ensureDir(`${folder}/${component}`);
+
+			let snippet = SnippetWithNext;
 
 			if (component === 'service' || component === 'functions') {
-				data = `${SnippetWithoutNext}`;
+				snippet = SnippetWithoutNext;
 			}
 
-			await write(`${folder}\\${component}\\${moduleName}.js`, data);
+			await writeFile(`${folder}/${component}/${moduleName}.js`, snippet);
 		}
 
-		for (const file of files) {
-			await write(`${folder}\\${file}`, JSON.stringify(routesJson, null, 2));
-		}
+		await writeJson(`${folder}/routes.json`, []);
+
 		return true;
 	} catch (err) {
 		throw err;

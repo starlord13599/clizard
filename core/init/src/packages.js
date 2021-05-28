@@ -1,4 +1,5 @@
-const { shellCommand } = require('../../../helpers/helpers');
+const path = require('path');
+const { shellCommand } = require(path.join(__dirname, '../../../', 'helpers/helpers.js'));
 
 //function to install packages && can return success message
 async function installPackages(nodeModules) {
@@ -8,7 +9,7 @@ async function installPackages(nodeModules) {
 }
 
 async function initPackage() {
-	await shellCommand('npm init -y', 'Running npm init -y');
+	await shellCommand('npm init -y', 'Initializing Package');
 }
 
 module.exports = { installPackages, initPackage };

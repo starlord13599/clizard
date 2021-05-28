@@ -116,3 +116,6 @@ dist
 
 #test
 tests/
+
+#gulp-files
+gulpFile.js

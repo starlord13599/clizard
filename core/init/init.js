@@ -1,26 +1,19 @@
+const path = require('path');
+const fs = require('fs-extra');
+
 const { createFiles, createFolders } = require('./src/folderAndFile');
 const { installPackages, initPackage } = require('./src/packages');
-const {
-	updateConfig,
-	initConfig,
-	initMigrations,
-	initModel,
-	initSeeders,
-	createDatabase
-} = require('./src/sequelizeConfig');
+const { updateConfig, createDatabase, initSequelize } = require('./src/sequelizeConfig');
 const { propmtQuestions, promptEnvironmentQuestion } = require('./src/question');
 
 //asyncly runs all the functions
-async function main(configs, folders, files, nodeModules, isConfigured) {
+async function main({ configs, folders, files, nodeModules, commands, isConfigured }) {
 	try {
 		await createFolders(folders);
 		await createFiles(files);
 		await initPackage();
 		await installPackages(nodeModules);
-		await initConfig();
-		await initMigrations();
-		await initSeeders();
-		await initModel();
+		await initSequelize(commands);
 		await updateConfig(configs);
 		await createDatabase(isConfigured);
 		return true;
@@ -31,30 +24,11 @@ async function main(configs, folders, files, nodeModules, isConfigured) {
 
 //clizard init
 async function init() {
-	const folders = require('../../data/folders.json');
-	const files = require('../../data/files.json');
-	const nodeModules = [
-		'sequelize',
-		'enquirer',
-		'express',
-		'ejs',
-		'express-ejs-layouts',
-		'morgan',
-		'multer',
-		'chalk',
-		'dotenv',
-		'mysql2',
-		'umzug',
-		'portastic',
-		'swear',
-		'atocha',
-		'lodash',
-		'node-cron'
-	];
-
 	const environment = await promptEnvironmentQuestion();
+
 	let configs;
 	let isConfigured;
+
 	switch (environment) {
 		case 'development':
 		case 'production':
@@ -67,7 +41,20 @@ async function init() {
 			break;
 	}
 
-	return await main({ environment, ...configs }, folders, files, nodeModules, isConfigured);
+	const folders = await fs.readJSON(path.join(__dirname, 'src/assets/folders.json'));
+	const files = await fs.readJSON(path.join(__dirname, 'src/assets/files.json'));
+	const nodeModules = await fs.readJSON(path.join(__dirname, 'src/assets/nodeModules.json'));
+
+	const commands = ['config', 'migrations', 'seeders', 'models'];
+
+	return await main({
+		configs: { environment, ...configs },
+		folders,
+		files,
+		nodeModules,
+		commands,
+		isConfigured,
+	});
 }
 
 module.exports = { init };

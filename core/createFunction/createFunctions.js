@@ -1,34 +1,42 @@
-const { write, list, name } = require('../../fsm/files');
-const { checkExists } = require('../../helpers/helpers');
+const path = require('path');
+const { pathExistsSync, writeFile, readJson, ensureDir } = require('fs-extra');
 const {
 	propmtPathQuestion,
 	propmtModuleQuestion,
 	promptOptionQuestion,
-	promptFunctionNameQuestion
+	promptFunctionNameQuestion,
 } = require('./src/propmtPathQuestion');
-const { updateFunctionFile, updateGlobalFunctionFile } = require('./src/updateFunctionFile');
+const {
+	updateFunctionFile,
+	updateGlobalFunctionFile,
+	checkPath,
+} = require('./src/updateFunctionFile');
 
 async function createFunction() {
 	try {
 		const option = await promptOptionQuestion();
-		const { funcWithoutNext, SnippetWithoutNext } = require('../../data/test.json');
+		const { functionSnippet } = await readJson(
+			path.join(__dirname, 'src', 'assets', 'snippets.json')
+		);
 
 		switch (option) {
 			case 'module':
 				let moduleName = await propmtModuleQuestion();
 				let functionNames = await promptFunctionNameQuestion();
-				await updateFunctionFile(functionNames, funcWithoutNext, moduleName);
+				await updateFunctionFile(functionNames, functionSnippet, moduleName);
 				break;
 
 			default:
-				const path = await propmtPathQuestion();
+				const obtainedPath = await propmtPathQuestion();
 				const globalFunctionNames = await promptFunctionNameQuestion();
-				let newPath = `./functions/${path.join('/')}.js`;
+				let newPath = path.resolve('functions', `${obtainedPath.join('/')}.js`);
 
-				if (!await checkExists(newPath)) {
-					await write(newPath, SnippetWithoutNext);
+				if (!(await checkPath(newPath))) {
+					ensureDir(path.dirname(newPath));
+					await writeFile(newPath, functionSnippet);
 				}
-				await updateGlobalFunctionFile(globalFunctionNames, funcWithoutNext, newPath);
+
+				await updateGlobalFunctionFile(globalFunctionNames, functionSnippet, newPath);
 				break;
 		}
 	} catch (err) {

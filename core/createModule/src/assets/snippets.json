@@ -1,0 +1,4 @@
+{
+	"SnippetWithoutNext": "module.exports.test = function(){\r\n//code goes here\r\n}\r\n",
+	"SnippetWithNext": "module.exports.test = function(req,res,next){\r\n//code goes here\r\nnext()\r\n}"
+}

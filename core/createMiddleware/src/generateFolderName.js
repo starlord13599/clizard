@@ -1,14 +1,14 @@
-const { list, name } = require('../../../fsm/files');
+const path = require('path');
+const { readdir } = require('fs-extra');
 
 //function to return all folders present in api folder
 async function generateFolderNames() {
 	try {
-		const folders = await list('api');
+		const folders = await readdir(path.resolve('api'));
 		if (folders.length === 0) {
 			throw new Error('No module found');
 		}
-		const folderName = folders.map(async (folder) => await name(folder));
-		return folderName;
+		return folders;
 	} catch (error) {
 		throw error;
 	}

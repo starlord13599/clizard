@@ -1,0 +1,18 @@
+[
+	"sequelize",
+	"enquirer",
+	"express",
+	"ejs",
+	"express-ejs-layouts",
+	"morgan",
+	"multer",
+	"chalk",
+	"dotenv",
+	"mysql2",
+	"umzug",
+	"portastic",
+	"lodash",
+	"node-cron",
+	"swear",
+	"atocha"
+]

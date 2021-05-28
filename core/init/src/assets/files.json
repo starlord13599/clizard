@@ -1,97 +1,97 @@
 [
 	{
 		"fileName": ".sequelizerc",
-		"fromPath": "../../../data/files/.sequelizerc",
+		"fromPath": "./assets/files/.sequelizerc",
 		"toPath": "./.sequelizerc"
 	},
 	{
 		"fileName": ".env",
-		"fromPath": "../../../data/files/.env",
+		"fromPath": "./assets/files/.env",
 		"toPath": "./.env"
 	},
 	{
 		"fileName": "app.js",
-		"fromPath": "../../../data/files/app.js",
+		"fromPath": "./assets/files/app.js",
 		"toPath": "./app.js"
 	},
 	{
 		"fileName": "connection.js",
-		"fromPath": "../../../data/files/connection.js",
+		"fromPath": "./assets/files/connection.js",
 		"toPath": "./core/connection.js"
 	},
 	{
 		"fileName": "functions.js",
-		"fromPath": "../../../data/files/functions.js",
+		"fromPath": "./assets/files/functions.js",
 		"toPath": "./core/functions.js"
 	},
 	{
 		"fileName": "umzug.js",
-		"fromPath": "../../../data/files/umzug.js",
+		"fromPath": "./assets/files/umzug.js",
 		"toPath": "./core/umzug.js"
 	},
 	{
 		"fileName": "multer.js",
-		"fromPath": "../../../data/files/multer.js",
+		"fromPath": "./assets/files/multer.js",
 		"toPath": "./core/multer.js"
 	},
 	{
 		"fileName": "routes.js",
-		"fromPath": "../../../data/files/routes.js",
+		"fromPath": "./assets/files/routes.js",
 		"toPath": "./core/routes.js"
 	},
 	{
 		"fileName": "migrations.js",
-		"fromPath": "../../../data/files/migrations.js",
+		"fromPath": "./assets/files/migrations.js",
 		"toPath": "./helpers/migrations.js"
 	},
 	{
 		"fileName": "port.js",
-		"fromPath": "../../../data/files/port.js",
+		"fromPath": "./assets/files/port.js",
 		"toPath": "./helpers/port.js"
 	},
 	{
 		"fileName": "loggingQuery.js",
-		"fromPath": "../../../data/files/loggingQuery.js",
+		"fromPath": "./assets/files/loggingQuery.js",
 		"toPath": "./helpers/loggingQuery.js"
 	},
 	{
 		"fileName": "files.js",
-		"fromPath": "../../../data/files/files.js",
+		"fromPath": "./assets/files/files.js",
 		"toPath": "./helpers/fsm/files.js"
 	},
 	{
 		"fileName": "globalMiddleware.js",
-		"fromPath": "../../../data/files/globalMiddleware.js",
+		"fromPath": "./assets/files/globalMiddleware.js",
 		"toPath": "./middleware/globalMiddleware.js"
 	},
 	{
 		"fileName": "globalServices.js",
-		"fromPath": "../../../data/files/globalMiddleware.js",
+		"fromPath": "./assets/files/globalMiddleware.js",
 		"toPath": "./services/globalServices.js"
 	},
 	{
 		"fileName": "services.js",
-		"fromPath": "../../../data/files/services.js",
+		"fromPath": "./assets/files/services.js",
 		"toPath": "./core/services.js"
 	},
 	{
 		"fileName": "moduleFunctions.js",
-		"fromPath": "../../../data/files/moduleFunctions.js",
+		"fromPath": "./assets/files/moduleFunctions.js",
 		"toPath": "./core/moduleFunctions.js"
 	},
 	{
 		"fileName": "moduleServices.js",
-		"fromPath": "../../../data/files/moduleServices.js",
+		"fromPath": "./assets/files/moduleServices.js",
 		"toPath": "./core/moduleServices.js"
 	},
 	{
 		"fileName": "generateApiDocs.js",
-		"fromPath": "../../../data/files/generateApiDocs.js",
+		"fromPath": "./assets/files/generateApiDocs.js",
 		"toPath": "./core/generateApiDocs.js"
 	},
 	{
 		"fileName": "errorHandlers.js",
-		"fromPath": "../../../data/files/errorHandlers.js",
+		"fromPath": "./assets/files/errorHandlers.js",
 		"toPath": "./core/errorHandlers.js"
 	}
 ]

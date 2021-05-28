@@ -1,20 +1,27 @@
-const { read, write } = require('../../../fsm/files');
+const { appendFile } = require('fs-extra');
+const { trim } = require('lodash');
 
-async function updateServices(globalServices, functionSnippet, path) {
-	const readData = await read(path).split('\n');
+async function updateServices(globalServices, functionSnippet, obtainedPath) {
+	const readData = require(obtainedPath);
 
-	let idx = readData.lastIndexOf('');
+	const preparedServices = Object.keys(readData);
 
 	for (const service of globalServices) {
-		if (readData.find((match) => match.includes(`${service}:`)) === undefined) {
+		if (!isPresent(service, preparedServices)) {
 			let updatedSnippet = functionSnippet.replace('test', service);
-			readData.splice(idx - 1, 0, updatedSnippet);
+			await appendFile(obtainedPath, updatedSnippet);
 		}
 	}
-
-	const newData = readData.join('\n');
-	await write(path, newData);
 	return true;
+}
+
+function isPresent(middleware, data) {
+	for (const str of data) {
+		if (trim(str) === trim(middleware)) {
+			return true;
+		}
+	}
+	return false;
 }
 
 module.exports = { updateServices };

@@ -1,5 +1,7 @@
-const { appendFile } = require('fs').promises;
-const { read, write } = require('../../../fsm/files');
+const path = require('path');
+const { appendFile } = require('fs-extra');
+const { trim } = require('lodash');
+//TODO Make sure to reuse object on nxt improvement
 
 //to append function snippets for middleware
 async function updateMiddlewareFile({ middlewares }, functionSnippet, moduleName) {
@@ -7,56 +9,76 @@ async function updateMiddlewareFile({ middlewares }, functionSnippet, moduleName
 		return false;
 	}
 
-	const readData = await read(`${process.cwd()}/api/${moduleName}/middleware/${moduleName}.js`).split('\n');
-	let idx = readData.lastIndexOf('');
+	const readData = require(path.resolve('api', moduleName, 'middleware', `${moduleName}.js`));
+
+	let preparedMiddlewares = Object.keys(readData);
 
 	middlewares.forEach(async (middleware) => {
-		if (readData.find((match) => match.includes(`${middleware}:`)) === undefined) {
-			const splited = middleware.split('.')[1];
+		const splited = middleware.split('.')[1];
+
+		if (!isPresent(splited, preparedMiddlewares)) {
+			console.log('inside middleware');
+
 			let updatedSnippet = functionSnippet.replace('test', splited);
-			readData.splice(idx - 1, 0, updatedSnippet);
+
+			await appendFile(
+				path.resolve('api', moduleName, 'middleware', `${moduleName}.js`),
+				updatedSnippet
+			);
 		}
 	});
-
-	const newData = readData.join('\n');
-	await write(`${process.cwd()}/api/${moduleName}/middleware/${moduleName}.js`, newData);
 	return true;
 }
 
 //to append function snippets for controller
 async function updateControllerFile({ controller }, functionSnippet, moduleName) {
-	if (controller === undefined) {
+	if (!controller) {
 		return false;
 	}
 
-	const readData = await read(`${process.cwd()}/api/${moduleName}/controller/${moduleName}.js`).split('\n');
-	let idx = readData.lastIndexOf('');
+	const readData = require(path.resolve('api', moduleName, 'controller', `${moduleName}.js`));
+
+	let preparedController = Object.keys(readData);
+
 	const splited = controller.split('.')[1];
 
-	if (readData.find((match) => match.includes(`${splited}:`)) === undefined) {
+	if (!isPresent(splited, preparedController)) {
 		let updatedSnippet = functionSnippet.replace('test', splited);
-		readData.splice(idx - 1, 0, updatedSnippet);
-	}
+		console.log('inside controller');
 
-	const newData = readData.join('\n');
-	await write(`${process.cwd()}/api/${moduleName}/controller/${moduleName}.js`, newData);
+		await appendFile(
+			path.resolve('api', moduleName, 'controller', `${moduleName}.js`),
+			updatedSnippet
+		);
+	}
 
 	return true;
 }
 
 async function updateGlobalMiddleware({ globalMiddlewares }, functionSnippet) {
-	const readData = await read(`${process.cwd()}/middleware/globalMiddleware.js`).split('\n');
+	const readData = require(path.resolve('middleware/globalMiddleware.js'), {});
 
-	let idx = readData.lastIndexOf('');
+	let preparedGlobalMiddlewares = Object.keys(readData);
+
 	globalMiddlewares.forEach(async (middleware) => {
-		if (readData.find((match) => match.includes(`${middleware}:`)) === undefined) {
+		if (!isPresent(middleware, preparedGlobalMiddlewares)) {
+			console.log('inside global middleware');
+
 			let updatedSnippet = functionSnippet.replace('test', middleware);
-			readData.splice(idx - 1, 0, updatedSnippet);
+			await appendFile(path.resolve('middleware/globalMiddleware.js'), updatedSnippet);
 		}
 	});
-	const newData = readData.join('\n');
-	await write(`${process.cwd()}/middleware/globalMiddleware.js`, newData);
+
 	return true;
+}
+
+function isPresent(middleware, data) {
+	for (const str of data) {
+		if (trim(str) === trim(middleware)) {
+			return true;
+		}
+	}
+	return false;
 }
 
 module.exports = { updateControllerFile, updateMiddlewareFile, updateGlobalMiddleware };

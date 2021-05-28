@@ -1,0 +1,4 @@
+{
+	"functionSnippet": "\nmodule.exports.test = function(req,res,next){ \r\n //code goes here \r\n next() \r\n}",
+	"controllerSnippet": "\nmodule.exports.test = function(req,res,next){\r\nres.status(200).json({'status':1,'message':'Success'})\r\nnext()\r\n}"
+}

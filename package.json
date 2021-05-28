@@ -20,13 +20,12 @@
 		"clizard": "app.js"
 	},
 	"dependencies": {
-		"atocha": "^1.2.2",
 		"chalk": "^4.1.0",
 		"commander": "^7.2.0",
 		"enquirer": "^2.3.6",
+		"fs-extra": "^10.0.0",
 		"lodash": "^4.17.21",
 		"ora": "^5.4.0",
-		"shelljs": "^0.8.4",
-		"swear": "^1.1.0"
+		"shelljs": "^0.8.4"
 	}
 }

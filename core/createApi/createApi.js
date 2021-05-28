@@ -1,6 +1,12 @@
-const { exists, write } = require('../../fsm/files');
+// const { exists, write } = require('../../fsm/files');
+const path = require('path');
+const { existsSync, readJson, writeJson } = require('fs-extra');
 const { overwritePrompt, generateData } = require('./src/promptQuestion');
-const { updateControllerFile, updateMiddlewareFile, updateGlobalMiddleware } = require('./src/updaters');
+const {
+	updateControllerFile,
+	updateMiddlewareFile,
+	updateGlobalMiddleware,
+} = require('./src/updaters');
 
 async function createApi() {
 	try {
@@ -12,12 +18,12 @@ async function createApi() {
 			throw `Process ended unexpectedly`;
 		}
 		//check if the routes.json file is present in specified module
-		if (!await exists(`${process.cwd()}/api/${moduleName}/routes.json`)) {
+		if (!existsSync(`${process.cwd()}/api/${moduleName}/routes.json`)) {
 			throw `Routes.json not found in ${moduleName}`;
 		}
 
 		//storing values of routes.json file into a variable
-		const routeData = require(`${process.cwd()}/api/${moduleName}/routes.json`);
+		const routeData = await readJson(`${process.cwd()}/api/${moduleName}/routes.json`);
 
 		//check if already exsist and ask user what to do (update or create new)
 		const found = routeData.find((el) => el.url === data.url && el.method === data.method);
@@ -36,14 +42,16 @@ async function createApi() {
 
 			default:
 				routeData.push(data); // push data in routeData
-				const { functionSnippet, controllerSnippet } = require('../../data/test.json'); //storing the function snippet in variable
-				updateMiddlewareFile(data, functionSnippet, moduleName); //creating/updating middleware
-				updateControllerFile(data, controllerSnippet, moduleName); //creating/updating controller
-				updateGlobalMiddleware(data, functionSnippet); //creating/updating globalMiddleware
+				const { functionSnippet, controllerSnippet } = await readJson(
+					path.join(__dirname, 'src/assets/snippets.json')
+				); //storing the function snippet in variable
+				await updateMiddlewareFile(data, functionSnippet, moduleName); //creating/updating middleware
+				await updateControllerFile(data, controllerSnippet, moduleName); //creating/updating controller
+				await updateGlobalMiddleware(data, functionSnippet); //creating/updating globalMiddleware
 				break;
 		}
 
-		await write(`${process.cwd()}/api/${moduleName}/routes.json`, JSON.stringify(routeData, null, 2));
+		await writeJson(path.resolve('api', moduleName, 'routes.json'), routeData, { spaces: 2 });
 
 		return true;
 	} catch (err) {
